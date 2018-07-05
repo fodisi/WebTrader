@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="https://getbootstrap.com/favicon.ico">
+
+    <title>User Dashboard - Terminal Trader</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://getbootstrap.com/docs/4.1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="https://getbootstrap.com/docs/4.1/examples/dashboard/dashboard.css" rel="stylesheet">
+</head>
+
+<body>
+    <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+        <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Welcome, {{ session['francis'] }}!</a>
+        <!--input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search"-->
+        <ul class="navbar-nav px-3">
+            <li class="nav-item text-nowrap">
+                <a class="nav-link" href="{{ url_for('logout.logout') }}">
+                    <span data-feather="log-out"></span>
+                    Sign out
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                <div class="sidebar-sticky">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('dashboard.show_dashboard') }}">
+                                <span data-feather="home"></span>
+                                Home
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <!--a class="nav-link active" href="{{ '/dashboard/%s'%username }}"-->
+                            <a class="nav-link active" href="{{ url_for('dashboard.show_dashboard') }}">
+                                <span data-feather="activity"></span>
+                                Dashboard
+                                <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('buy.show_buy') }}">
+                                <span data-feather="shopping-cart"></span>
+                                Buy
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('sell.show_sell') }}">
+                                <span data-feather="credit-card"></span>
+                                Sell
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('lookup.show_lookup') }}">
+                                <span data-feather="eye"></span>
+                                Lookup
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('quote.show_quote') }}">
+                                <span data-feather="dollar-sign"></span>
+                                Quote
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('order.show_order') }}">
+                                <span data-feather="list"></span>
+                                Orders
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Error handling -->
+            {% if error %}
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h4 class="h4"></h4>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                    </div>
+                </div>
+                <p> Error: {{ error }}. </p>
+            </main>
+            {% elif pl %}
+            <!-- Displays User Summary -->
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h4 class="h4">Summary</h4>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                    </div>
+                </div>
+                <div class="container">
+                    <!-- Example row of columns -->
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h5> Current Balance </h5>
+                            <h6>
+                                <b>{{ "$ {:,.2f}".format(pl['cur_balance']) }}</b>
+                            </h6>
+                        </div>
+                        <div class="col-md-4">
+                            <h5> Initial Balance </h5>
+                            <h6>
+                                <b>{{ "$ {:,.2f}".format(pl['initial_balance']) }}</b>
+                            </h6>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-1 pb-1 mb-1 border-bottom">
+                    <h4 class="h4">Profit / Loss (P/L)</h4>
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h5> Realized Value </h5>
+                            <p> Holdings (Buy Price):
+                                <b>{{ "$ {:,.2f}".format(pl['buy_hold_value']) }}</b>
+                            </p>
+                            <p> Realized Account Value:
+                                <b>{{ "$ {:,.2f}".format(pl['account_real_value']) }}</b>
+                            </p>
+                            <p> Realized P/L | (%):
+                                <b>{{ "$ {:,.2f}".format(pl['real_pl_value']) }} ({{ " {:,.2f}".format(pl['real_pl_percent'])
+                                    }} %)</b>
+                            </p>
+                        </div>
+                        <div class="col-md-4">
+                            <h5>Unrealized Value (Market)</h5>
+                            <p>Holdings (Market Price):
+                                <b>{{ "$ {:,.2f}".format(pl['mkt_hold_value']) }}</b>
+                            </p>
+                            <p>Unrealized Account Value:
+                                <b>{{ "$ {:,.2f}".format(pl['account_mkt_value']) }}</b>
+                            </p>
+                            <p>Unealized P/L | (%):
+                                <b>{{ "$ {:,.2f}".format(pl['unreal_pl_value']) }} ({{ " {:,.2f}".format(pl['unreal_pl_percent'])
+                                    }} %)</b>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <!-- Displays User Holdings -->
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-1 pb-1 mb-1 border-bottom">
+                    <h4 class="h4">Holdings</h4>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-striped table-sm">
+                        <!-- Column Headers -->
+                        <thead>
+                            <tr>
+                                <th>Symbol</th>
+                                <th>Volume</th>
+                                <th>Avg. Buy Price*</th>
+                                <th>Market Price*</th>
+                                <th>Buy Total</th>
+                                <th>Market Price Total</th>
+                                <th>Difference</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Column Values -->
+                            <!--{# here we iterate over every item in our list which we will pass from bar() #}-->
+                            {% for item in pl['holdings'] %}
+                            <tr>
+                                <td>{{ item['ticker_symbol'] }}</td>
+                                <td>{{ item['volume'] }}</td>
+                                <td>{{ "$ {:,.2f}".format(item['avg_buy_price']) }}</td>
+                                <td>{{ "$ {:,.2f}".format(item['mkt_price']) }}</td>
+                                <td>{{ "$ {:,.2f}".format(item['total_buy_price']) }}</td>
+                                <td>{{ "$ {:,.2f}".format(item['total_mkt_price']) }}</td>
+                                <td>{{ "$ {:,.2f}".format(item['difference']) }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <p>Avg. Buy Price* | Market Price*: Fees included.</p>
+                </div>
+            </main>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+    <script src="https://getbootstrap.com/docs/4.1/assets/js/vendor/popper.min.js"></script>
+    <script src="https://getbootstrap.com/docs/4.1/dist/js/bootstrap.min.js"></script>
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+    <script>
+        feather.replace()
+    </script>
+
+</body>
+
+</html>
