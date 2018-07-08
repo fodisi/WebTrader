@@ -1,0 +1,61 @@
+#!/usr/bin/env python3
+
+
+import json
+import unittest
+from dateutil import parser
+
+from core.serializer.markit_asset_decoder import MarkitOnDemmandAssetDecoder
+
+
+class TestMarkitOnDemmandAssetEncoder(unittest.TestCase):
+    """core.serializer.markit_asset_decoder.MarkitOnDemmandAssetEncoder tester unit."""
+
+    def setUp(self):
+        """Setup method executed before every test case."""
+        self.markit_json_str = """{
+            "Status": "SUCCESS",
+            "Name": "name",
+            "Symbol": "symbol",
+            "LastPrice": 1.0,
+            "Change": 1.0,
+            "ChangePercent": 1.0,
+            "Timestamp": "Mon Jan 1 02:30:40 UTC-04:00 2010",
+            "MSDate": 1,
+            "MarketCap": 1,
+            "Volume": 1,
+            "ChangeYTD": 1.0,
+            "ChangePercentYTD": 1.0,
+            "High": 1.0,
+            "Low": 1.0,
+            "Open": 1.0
+        }"""
+
+        self.asset_dictionary = {
+            "name": "name",
+            "symbol": "symbol",
+            "exchange": "",
+            "last_price": 1.0,
+            "change_1h": 0.0,
+            "change_percent_1h": 0.0,
+            "change_1d": 1.0,
+            "change_percent_1d": 1.0,
+            "change_7d": 0.0,
+            "change_percent_7d": 0.0,
+            "change_year": 1.0,
+            "change_percent_year": 1.0,
+            "timestamp": parser.parse("Mon Jan 1 02:30:40 UTC-04:00 2010"),
+            "market_cap": 1,
+            "volume": 1,
+            "high": 1.0,
+            "low": 1.0,
+            "open": 1.0
+        }
+
+    def test_decoder(self):
+        """Tests MarkitOnDemmandAssetDecoder.convert method(Valid Json | Invalid Json | Non-Json Object)."""
+
+        # Tests convert expecting a successfull decoding.
+        json_obj = json.loads(self.markit_json_str,
+                              cls=MarkitOnDemmandAssetDecoder)
+        self.assertEqual(json_obj, self.asset_dictionary)
