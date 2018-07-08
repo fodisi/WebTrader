@@ -12,7 +12,7 @@ class Holding:
                         trade_unit_price, transaction_type):
         holdings = self.get_user_holdings_by_symbol(username, ticker_symbol)
 
-        if holdings != None:
+        if holdings is not None:
             # Buy
             if transaction_type == 'B':
                 # finds the new weighted average unit price and new volume
@@ -49,7 +49,7 @@ class Holding:
     def get_holding_volume(self, username, ticker_symbol):
         holding_volume = 0
         holdings = self.get_user_holdings_by_symbol(username, ticker_symbol)
-        if holdings != None:
+        if holdings is not None:
             holding_volume = holdings['volume']
         return holding_volume
 
@@ -62,7 +62,7 @@ class Holding:
     def get_holdings_with_market_value(self, username):
         mkt_holding_list = None
         user_holdings = self.get_user_holdings(username)
-        if user_holdings != None:
+        if user_holdings is not None:
             mkt_holding_list = []
             # Generates an updated holding list containing market price info
             for item in user_holdings:
