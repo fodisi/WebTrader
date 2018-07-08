@@ -68,6 +68,7 @@ class MarkitOnDemmand():
                 {
                     "name": string,
                     "symbol": string,
+                    "exchange": "" (Default)
                     "last_price": float,
                     "change_1h": 0.0 (Default),
                     "change_percent_1h": 0.0 (Default),
@@ -137,7 +138,7 @@ class MarkitOnDemmand():
 
         Returns:
             None: if no content was found based on 'search_input'. Otherwise;
-            string: a JSON object with lookup data, in the following format:
+            list: a list of dictionaries with lookup data, in the following format:
             [
                 {
                 "Symbol":string,
@@ -170,3 +171,31 @@ class MarkitOnDemmand():
             raise ValueError(json_obj['Message'])
 
         return json_obj if (len(json_obj) > 0) else None
+
+    @staticmethod
+    def lookup_exchange(ticker_symbol):
+        """Lookups for the exchange where 'ticker_symbol' is traded.
+
+        Args:
+            ticker_symbol (str): used to identify the exchange where the 'ticker_symbol' is traded.
+
+        Returns:
+            None: if no exchange was found based on 'ticker_symbol'. Otherwise;
+            string: the name of the exchange where 'ticker_symbol' is traded.
+                If 'ticker_symbol' is traded in more than one exchange,
+                returns the first exchange found.
+
+        Raises:
+            ValueError: if an error message is returned from the API.
+
+        """
+
+        exchange = None
+        result = MarkitOnDemmand.lookup(ticker_symbol)
+        if result is not None:
+            for item in result:
+                if item['Symbol'].lower() == ticker_symbol.lower():
+                    exchange = item['Exchange']
+                    break
+
+        return exchange
