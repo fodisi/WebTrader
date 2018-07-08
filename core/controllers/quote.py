@@ -14,7 +14,9 @@ def __quote(symbol):
     error = None
     try:
         quote = AssetQuote.from_market_data(symbol)
-        quote = {'symbol': symbol, 'price': quote.last_price}
+        quote = {'exchange': quote.exchange,
+                 'symbol': quote.symbol,
+                 'price': quote.last_price}
     except Exception as e:
         error = e.args[0]
 
