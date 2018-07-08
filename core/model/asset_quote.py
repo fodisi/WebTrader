@@ -12,6 +12,7 @@ class AssetQuote():
     def __init(self):
         self.name = ''
         self.symbol = ''
+        self.exchange = ''
         self.last_price = 0.0
         self.change_1h = 0.0  # Used for cryptomarkets only
         self.change_percent_1h = 0.0  # Used for cryptomarkets only
@@ -38,8 +39,8 @@ class AssetQuote():
 
         return str(self.__dict__)
 
-    @staticmethod
-    def from_market_data(ticker_symbol):
+    @classmethod
+    def from_market_data(cls, ticker_symbol):
         """Creates a new instance with updated market data based on a specific 'ticker_symbol'.
 
         Args:
@@ -50,9 +51,29 @@ class AssetQuote():
 
         """
 
-        quote = AssetQuote()
+        quote = cls()
         quote.__dict__.update(MarkitOnDemmand.quote(ticker_symbol))
+        quote.exchange = quote.get_exchange_name(quote.symbol)
         return quote
+
+    @staticmethod
+    def get_exchange_name(ticker_symbol):
+        """Gets the exchange where 'ticker_symbol' is traded.
+
+        Args:
+            ticker_symbol (str): used to identify the exchange where the 'ticker_symbol' is traded.
+
+        Returns:
+            None: if no exchange was found based on 'ticker_symbol'. Otherwise;
+            string: the name of the exchange where 'ticker_symbol' is traded.
+                If 'ticker_symbol' is traded in more than one exchange,
+                returns the first exchange found.
+
+        Raises:
+            ValueError: if an error message is returned from the API.
+
+        """
+        return MarkitOnDemmand.lookup_exchange(ticker_symbol)
 
     def get_ticker_symbol(self, company_name):
         return MarkitOnDemmand.lookup(company_name)
