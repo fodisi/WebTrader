@@ -66,3 +66,20 @@ class TestMarkitOnDemmandWrapper(unittest.TestCase):
             wrapper.lookup('')
         self.assertTrue(
             invalid.exception.args[0].lower().startswith('missing required parameter'))
+
+    def test_lookup_exchange(self):
+        """Tests MarkitOnDemmand.lookup_exchange(Valid Symbol | Invalid Symbol | Missing Symbol)."""
+
+        # Tests for a request with a valid ticker symbol.
+        result = wrapper.lookup_exchange('tsla')
+        self.assertEqual(result.upper(), 'NASDAQ')
+
+        # Tests for a request with a invalid input.
+        result = wrapper.lookup_exchange('INVALID_INPUT')
+        self.assertIsNone(result)
+
+        # Tests for a request with an empty input.
+        with self.assertRaises(ValueError) as invalid:
+            wrapper.lookup_exchange('')
+        self.assertTrue(
+            invalid.exception.args[0].lower().startswith('missing required parameter'))

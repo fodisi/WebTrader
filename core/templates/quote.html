@@ -36,7 +36,7 @@
                 <div class="sidebar-sticky">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('dashboard.show_dashboard') }}">
+                            <a class="nav-link" href="{{ url_for('home.show_home') }}">
                                 <span data-feather="home"></span>
                                 Home
                             </a>
@@ -101,16 +101,52 @@
                     </div>
                 </form>
 
-                <div class="row">
+
+
+            </main>
+
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
                     {% if quote %}
-                    <p> {{ quote['symbol'] }} last quote is $ {{ "{:,.2f}".format(quote['price']) }}. </p>
+                    <!-- TradingView Widget BEGIN -->
+                    <div class="tradingview-widget-container">
+                        <div class="tradingview-widget-copyright">
+                            <a href="https://www.tradingview.com/symbols/{{ quote['exchange'] }}-{{ quote['symbol'] }}/" rel="noopener" target="_blank">
+                                <span class="blue-text">{{ quote['exchange'] }} : {{ quote['symbol'] }} chart {{ "(Quote: $ {:,.2f})".format(quote['price'])
+                                    }}
+                                </span>
+                            </a>
+                        </div>
+                        <div id="tradingview_7e8cf"></div>
+                        <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+                        <script type="text/javascript">
+                            new TradingView.widget(
+                                {
+                                    "width": 1200,
+                                    "height": 610,
+                                    "symbol": "{{ quote['exchange'] }}:{{ quote['symbol'] }}",
+                                    "interval": "D",
+                                    "timezone": "Etc/UTC",
+                                    "theme": "Light",
+                                    "style": "1",
+                                    "locale": "en",
+                                    "toolbar_bg": "#f1f3f6",
+                                    "enable_publishing": false,
+                                    "withdateranges": true,
+                                    "hide_side_toolbar": false,
+                                    "allow_symbol_change": true,
+                                    "details": true,
+                                    "container_id": "tradingview_7e8cf"
+                                }
+                            );
+                        </script>
+                    </div>
+                    <!-- TradingView Widget END -->
                     {% elif error %}
                     <p> Error: {{ error }}. </p>
                     {% endif %}
                 </div>
-
             </main>
-
         </div>
     </div>
 

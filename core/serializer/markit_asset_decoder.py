@@ -27,6 +27,7 @@ class MarkitOnDemmandAssetDecoder(json.JSONDecoder):
                 return {
                     'name': obj['Name'],
                     'symbol': obj['Symbol'],
+                    'exchange': '',
                     'last_price': obj['LastPrice'],
                     'change_1h': 0.0,
                     'change_percent_1h': 0.0,

@@ -34,6 +34,7 @@ class TestMarkitOnDemmandAssetEncoder(unittest.TestCase):
         self.asset_dictionary = {
             "name": "name",
             "symbol": "symbol",
+            "exchange": "",
             "last_price": 1.0,
             "change_1h": 0.0,
             "change_percent_1h": 0.0,

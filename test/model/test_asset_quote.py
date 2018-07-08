@@ -8,7 +8,7 @@ from core.model.asset_quote import AssetQuote
 
 
 class TestAssetQuote(unittest.TestCase):
-    """Model.AssetQuote tester unit."""
+    """core.model.asset_quote.AssetQuote tester unit."""
 
     def test_from_market_data(self):
         """Tests Model.AssetQuote.from_market_data method."""
@@ -16,6 +16,7 @@ class TestAssetQuote(unittest.TestCase):
         quote = AssetQuote.from_market_data('tsla')
         self.assertEqual(quote.symbol.lower(), 'tsla')
         self.assertNotEqual(quote.name, '')
+        self.assertEqual(quote.exchange.upper(), 'NASDAQ')
         self.assertGreater(quote.last_price, 0)
 
     def test_str(self):
@@ -24,6 +25,7 @@ class TestAssetQuote(unittest.TestCase):
         quote_dict = {
             'name': 'name',
             'symbol': 'symbol',
+            'exchange': 'exchange',
             'last_price': 0.0,
             'change_1h': 0.0,
             'change_percent_1h': 0.0,

@@ -6,6 +6,7 @@ import os
 from flask import Flask
 
 from core.controllers.login import login_ctrl as login
+from core.controllers.home import home_ctrl as home
 from core.controllers.dashboard import dashboard_ctrl as dashboard
 from core.controllers.buy import buy_ctrl as buy
 from core.controllers.sell import sell_ctrl as sell
@@ -22,6 +23,7 @@ omnibus.secret_key = 'You Will Never Guess'
 
 
 omnibus.register_blueprint(login)
+omnibus.register_blueprint(home)
 omnibus.register_blueprint(dashboard)
 omnibus.register_blueprint(buy)
 omnibus.register_blueprint(sell)
