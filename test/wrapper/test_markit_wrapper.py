@@ -6,6 +6,7 @@ from core.wrapper.markit_wrapper import MarkitOnDemmand as wrapper
 
 
 class TestMarkitOnDemmandWrapper(unittest.TestCase):
+    """core.wrapper.markit_wrapper.MarkitOnDemmandWrapper unit tester."""
 
     def test_build_endpoint(self):
         """Tests MarkitOnDemmand.build_endpoint(Quote | Lookup |Invalid function name)."""
@@ -34,9 +35,8 @@ class TestMarkitOnDemmandWrapper(unittest.TestCase):
 
         # Tests for a request with a valid symbol.
         result = wrapper.quote('tsla')
-        self.assertIn('Status', result)
-        self.assertEqual(result['Status'], 'SUCCESS')
-        self.assertEqual(result['Symbol'].lower(), 'tsla')
+        self.assertIn('symbol', result)
+        self.assertEqual(result['symbol'].lower(), 'tsla')
 
         # Tests for a request with an invalid symbol.
         with self.assertRaises(ValueError) as invalid:

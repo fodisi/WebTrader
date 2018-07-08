@@ -2,7 +2,7 @@
 
 from flask import Blueprint, render_template, request
 
-from core.model.asset import Asset
+from core.model.asset_quote import AssetQuote
 
 quote_ctrl = Blueprint('quote', __name__, url_prefix='/quote')
 
@@ -13,8 +13,8 @@ def __quote(symbol):
     quote = None
     error = None
     try:
-        price = Asset().get_last_price(symbol)
-        quote = {'symbol': symbol, 'price': price}
+        quote = AssetQuote.from_market_data(symbol)
+        quote = {'symbol': symbol, 'price': quote.last_price}
     except Exception as e:
         error = e.args[0]
 

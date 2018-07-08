@@ -5,6 +5,8 @@ import json
 
 import requests
 
+from core.serializer.markit_asset_decoder import MarkitOnDemmandAssetDecoder
+
 
 class MarkitOnDemmand():
     """Wrapper for MarkitOnDemmand API, version 2, expecting JSON objects as result.
@@ -62,23 +64,25 @@ class MarkitOnDemmand():
             ticker_symbol (str): ticker symbol to look for a quote.
 
         Returns:
-            string: quote information for a specific 'ticker_symbol', as a JSON object:
+            dictionary: quote information for a specific 'ticker_symbol', as a JSON object:
                 {
-                "Status":"SUCCESS",
-                "Name":string,
-                "Symbol":string,
-                "LastPrice":float,
-                "Change":float,
-                "ChangePercent":float,
-                "Timestamp":string, representing datetime in format "ddd MMM d HH:mm:ss UTCzzzzz yyyy",
-                "MSDate":integer,
-                "MarketCap":integer,
-                "Volume":integer,
-                "ChangeYTD":float,
-                "ChangePercentYTD":float,
-                "High":float,
-                "Low":float,
-                "Open":float
+                    "name": string,
+                    "symbol": string,
+                    "last_price": float,
+                    "change_1h": 0.0 (Default),
+                    "change_percent_1h": 0.0 (Default),
+                    "change_1d": float,
+                    "change_percent_1d": float,
+                    "change_7d": 0.0 (Default),
+                    "change_percent_7d": 0.0 (Default),
+                    "change_year": float,
+                    "change_percent_year": float,
+                    "timestamp": string,
+                    "market_cap": integer,
+                    "volume": integer,
+                    "high": float,
+                    "low": float,
+                    "open": float
                 }
 
         Raises:
@@ -87,8 +91,8 @@ class MarkitOnDemmand():
         """
 
         # Successfull API call returns a JSON object that contains a field 'Status'.
-        # API Calls passing an empty/invalid parameter return a JSON object with a field 'Message'.
         #
+        # Incorrect API Calls passing an empty/invalid parameter return a JSON object with a field 'Message'.
         # Invalid Symbol: {
         #   "Message":"No symbol matches found for tsla2.
         #   Try another symbol such as MSFT or AAPL, or use the Lookup API."
@@ -107,8 +111,8 @@ class MarkitOnDemmand():
 
         json_obj = json.loads(result.text)
 
-        if 'Status' in json_obj:
-            return json_obj
+        if 'Status' in json_obj and json_obj['Status'] == 'SUCCESS':
+            return json.loads(result.text, cls=MarkitOnDemmandAssetDecoder)
 
         if 'Message' in json_obj:
             raise ValueError(json_obj['Message'])
