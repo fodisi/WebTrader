@@ -2,9 +2,9 @@
 
 from flask import Blueprint, render_template, request, redirect, url_for, session
 
-from core.model.user import User
-from core.model.account import Account
-from core.controllers import dashboard
+from ..model.user import User
+from ..model.account import Account
+from . import home
 
 
 login_ctrl = Blueprint('login', __name__)
@@ -12,7 +12,7 @@ login_ctrl = Blueprint('login', __name__)
 
 def try_login(username, password):
     user = User().login(username, password)
-    return user != None, user
+    return user != None
 
 
 @login_ctrl.route('/', methods=['GET', 'POST'])
@@ -22,13 +22,10 @@ def show_login():
     else:
         username = request.form['email']
         password = request.form['password']
-        result, user = try_login(username, password)
-        if result:
-            # return redirect(url_for('dashboard.show_dashboard',
-            #                         username=user["username"]))
+        if try_login(username, password):
             session['user'] = username
             session['francis'] = username
-            return redirect(url_for('dashboard.show_dashboard'))
+            return redirect(url_for('home.show_home'))
         else:
             session['user'] = ''
             return render_template('login.html', login_error='error')

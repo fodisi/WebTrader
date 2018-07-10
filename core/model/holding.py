@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 
-
-from core.model.asset_quote import AssetQuote
-from core.mapper.holding_mapper import HoldingMapper
+from ..mapper.holding_mapper import HoldingMapper
+from .quote import Quote
 
 
 class Holding:
@@ -67,7 +66,7 @@ class Holding:
             # Generates an updated holding list containing market price info
             for item in user_holdings:
                 # Gets updated market price
-                quote = AssetQuote.from_market_data(item['ticker_symbol'])
+                quote = Quote.from_market_data(item['ticker_symbol'])
                 # Creates and fills holdings dictionary with updated market info
                 mkt_holding = {}
                 mkt_holding['pk'] = item['pk']

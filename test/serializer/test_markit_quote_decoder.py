@@ -5,10 +5,10 @@ import json
 import unittest
 from dateutil import parser
 
-from core.serializer.markit_asset_decoder import MarkitOnDemmandAssetDecoder
+from core.serializer.markit_quote_decoder import MarkitOnDemmandQuoteDecoder
 
 
-class TestMarkitOnDemmandAssetEncoder(unittest.TestCase):
+class TestMarkitOnDemmandQuoteEncoder(unittest.TestCase):
     """core.serializer.markit_asset_decoder.MarkitOnDemmandAssetEncoder tester unit."""
 
     def setUp(self):
@@ -57,5 +57,5 @@ class TestMarkitOnDemmandAssetEncoder(unittest.TestCase):
 
         # Tests convert expecting a successfull decoding.
         json_obj = json.loads(self.markit_json_str,
-                              cls=MarkitOnDemmandAssetDecoder)
+                              cls=MarkitOnDemmandQuoteDecoder)
         self.assertEqual(json_obj, self.asset_dictionary)

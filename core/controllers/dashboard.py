@@ -2,7 +2,7 @@
 
 from flask import Blueprint, render_template, request, session
 
-from core.model.account import Account
+from ..model.account import Account
 
 
 dashboard_ctrl = Blueprint('dashboard', __name__, url_prefix='/dashboard')

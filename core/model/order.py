@@ -2,10 +2,10 @@
 
 from datetime import datetime
 
-from core.mapper.order_mapper import OrderMapper
-from core.model.user import User
-from core.model.holding import Holding
-from core.model.asset_quote import AssetQuote
+from ..mapper.order_mapper import OrderMapper
+from .user import User
+from .holding import Holding
+from .quote import Quote
 
 
 class Order():
@@ -13,7 +13,7 @@ class Order():
     def buy(self, ticker_symbol, trade_volume, username):
         user = User()
         user_balance = user.get_current_balance(username)
-        quote = AssetQuote.from_market_data(ticker_symbol)
+        quote = Quote.from_market_data(ticker_symbol)
         transaction_cost = (quote.last_price * float(trade_volume)
                             ) + Holding.BROKERAGE_FEE
         if transaction_cost <= user_balance:
@@ -48,7 +48,7 @@ class Order():
         holding = Holding()
         user_balance = user.get_current_balance(username)
         holding_volume = holding.get_holding_volume(username, ticker_symbol)
-        quote = AssetQuote.from_market_data(ticker_symbol)
+        quote = Quote.from_market_data(ticker_symbol)
         transaction_value = (quote.last_price * float(trade_volume)
                              ) - Holding.BROKERAGE_FEE
 

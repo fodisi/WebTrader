@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from core.mapper.base_mapper import BaseMapper
+from ..mapper.base_mapper import BaseMapper
 
 
 class HoldingMapper(BaseMapper):

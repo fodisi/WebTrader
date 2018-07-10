@@ -2,7 +2,7 @@
 
 from datetime import datetime
 
-from core.mapper.base_mapper import BaseMapper
+from ..mapper.base_mapper import BaseMapper
 
 
 class OrderMapper(BaseMapper):

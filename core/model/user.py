@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 
-from core.mapper.user_mapper import UserMapper
+from ..mapper.user_mapper import UserMapper
 
 """ Functions for Users. """
 

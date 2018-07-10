@@ -2,7 +2,8 @@
 
 from flask import Blueprint, render_template, request, session
 
-from core.model.order import Order
+from ..model.order import Order
+
 
 order_ctrl = Blueprint('order', __name__, url_prefix='/order')
 

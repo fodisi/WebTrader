@@ -2,7 +2,8 @@
 
 from flask import Blueprint, render_template, request
 
-from core.model.asset_quote import AssetQuote
+from ..model.quote import Quote
+
 
 lookup_ctrl = Blueprint('lookup', __name__, url_prefix='/lookup')
 
@@ -13,7 +14,7 @@ def __lookup(company_name):
     company = None
     error = None
     try:
-        symbol = AssetQuote().get_ticker_symbol(company_name)
+        symbol = Quote().get_ticker_symbol(company_name)
         company = {'name': company_name, 'symbol': symbol}
     except Exception as e:
         error = e.args[0]

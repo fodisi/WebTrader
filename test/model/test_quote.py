@@ -4,16 +4,16 @@
 import unittest
 from datetime import datetime
 
-from core.model.asset_quote import AssetQuote
+from core.model.quote import Quote
 
 
-class TestAssetQuote(unittest.TestCase):
+class TestQuote(unittest.TestCase):
     """core.model.asset_quote.AssetQuote tester unit."""
 
     def test_from_market_data(self):
         """Tests Model.AssetQuote.from_market_data method."""
 
-        quote = AssetQuote.from_market_data('tsla')
+        quote = Quote.from_market_data('tsla')
         self.assertEqual(quote.symbol.lower(), 'tsla')
         self.assertNotEqual(quote.name, '')
         self.assertEqual(quote.exchange.upper(), 'NASDAQ')
@@ -43,6 +43,6 @@ class TestAssetQuote(unittest.TestCase):
             'open': 0.0
         }
 
-        quote_obj = AssetQuote()
+        quote_obj = Quote()
         quote_obj.__dict__.update(quote_dict)
         self.assertEqual(str(quote_dict), str(quote_obj))
