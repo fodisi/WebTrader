@@ -5,7 +5,7 @@ import json
 
 import requests
 
-from core.serializer.markit_asset_decoder import MarkitOnDemmandAssetDecoder
+from ..serializer.markit_quote_decoder import MarkitOnDemmandQuoteDecoder
 
 
 class MarkitOnDemmand():
@@ -102,6 +102,9 @@ class MarkitOnDemmand():
         #   "Message":"Missing Required Parameter: \"symbol\""
         # }
 
+        if (ticker_symbol is None) or (ticker_symbol.strip() == ''):
+            raise ValueError('Missing required parameter "ticker_symbol".')
+
         # Creates and call API endpoint, then loads result into json result object.
         endpoint = MarkitOnDemmand.build_endpoint(MarkitOnDemmand.FUNCTION_QUOTE,
                                                   ticker_symbol)
@@ -113,7 +116,7 @@ class MarkitOnDemmand():
         json_obj = json.loads(result.text)
 
         if 'Status' in json_obj and json_obj['Status'] == 'SUCCESS':
-            return json.loads(result.text, cls=MarkitOnDemmandAssetDecoder)
+            return json.loads(result.text, cls=MarkitOnDemmandQuoteDecoder)
 
         if 'Message' in json_obj:
             raise ValueError(json_obj['Message'])
@@ -156,6 +159,9 @@ class MarkitOnDemmand():
         # Successfull API call returns a JSON object that contains a field 'Status'.
         # API Calls passing an empty/invalid parameter return a JSON object with a field 'Message'.
         # {"Message":"Missing Required Parameter: \"input\""}
+
+        if (search_input is None) or (search_input.strip() == ''):
+            raise ValueError('Missing required parameter "search_input".')
 
         # Creates and call API endpoint, then loads result into json result object.
         endpoint = MarkitOnDemmand.build_endpoint(MarkitOnDemmand.FUNCTION_LOOKUP,
