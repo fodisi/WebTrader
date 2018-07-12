@@ -8,41 +8,21 @@ from core.model.quote import Quote
 
 
 class TestQuote(unittest.TestCase):
-    """core.model.asset_quote.AssetQuote tester unit."""
+    """core.model.quote.Quote tester unit."""
+
+    def test_set_exchange_from_market_data(self):
+        """Tests Model.Quote.set_exchange_from_market_data."""
+
+        quote = Quote()
+        quote.symbol = 'tsla'
+        quote.set_exchange_from_market_data()
+        self.assertEqual(quote.exchange.upper(), 'NASDAQ')
 
     def test_from_market_data(self):
-        """Tests Model.AssetQuote.from_market_data method."""
+        """Tests Model.Quote.from_market_data method."""
 
         quote = Quote.from_market_data('tsla')
         self.assertEqual(quote.symbol.lower(), 'tsla')
         self.assertNotEqual(quote.name, '')
         self.assertEqual(quote.exchange.upper(), 'NASDAQ')
         self.assertGreater(quote.last_price, 0)
-
-    def test_str(self):
-        """Tests Model.AssetQuote.__str__ custom method."""
-
-        quote_dict = {
-            'name': 'name',
-            'symbol': 'symbol',
-            'exchange': 'exchange',
-            'last_price': 0.0,
-            'change_1h': 0.0,
-            'change_percent_1h': 0.0,
-            'change_1d': 0.0,
-            'change_percent_1d': 0.0,
-            'change_7d': 0.0,
-            'change_percent_7d': 0.0,
-            'change_year': 0.0,
-            'change_percent_year': 0.0,
-            'timestamp': datetime.now(),
-            'market_cap': 0,
-            'volume': 0,
-            'high': 0.0,
-            'low': 0.0,
-            'open': 0.0
-        }
-
-        quote_obj = Quote()
-        quote_obj.__dict__.update(quote_dict)
-        self.assertEqual(str(quote_dict), str(quote_obj))

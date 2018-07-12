@@ -8,8 +8,8 @@ from dateutil import parser
 from core.serializer.markit_quote_decoder import MarkitOnDemmandQuoteDecoder
 
 
-class TestMarkitOnDemmandQuoteEncoder(unittest.TestCase):
-    """core.serializer.markit_asset_decoder.MarkitOnDemmandAssetEncoder tester unit."""
+class TestMarkitOnDemmandQuoteDecoder(unittest.TestCase):
+    """core.serializer.markit_quote_decoder.MarkitOnDemmandQuoteDecoder tester unit."""
 
     def setUp(self):
         """Setup method executed before every test case."""
@@ -31,7 +31,7 @@ class TestMarkitOnDemmandQuoteEncoder(unittest.TestCase):
             "Open": 1.0
         }"""
 
-        self.asset_dictionary = {
+        self.quote_dictionary = {
             "name": "name",
             "symbol": "symbol",
             "exchange": "",
@@ -53,9 +53,9 @@ class TestMarkitOnDemmandQuoteEncoder(unittest.TestCase):
         }
 
     def test_decoder(self):
-        """Tests MarkitOnDemmandAssetDecoder.convert method(Valid Json | Invalid Json | Non-Json Object)."""
+        """Tests MarkitOnDemmandQuoteDecoder.convert method."""
 
         # Tests convert expecting a successfull decoding.
         json_obj = json.loads(self.markit_json_str,
                               cls=MarkitOnDemmandQuoteDecoder)
-        self.assertEqual(json_obj, self.asset_dictionary)
+        self.assertEqual(json_obj, self.quote_dictionary)

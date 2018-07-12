@@ -17,13 +17,13 @@ def __quote(symbol):
     error = None
     try:
         quote = Quote.from_market_data(symbol)
-        quote = {'exchange': quote.exchange,
-                 'symbol': quote.symbol,
-                 'price': quote.last_price}
+        result = {'exchange': quote.exchange,
+                  'symbol': quote.symbol,
+                  'price': quote.last_price}
     except Exception as e:
         error = e.args[0]
 
-    return render_template(html_filename, quote=quote, error=error)
+    return render_template(html_filename, quote=result, error=error)
 
 
 @quote_ctrl.route('/quote', methods=['GET', 'POST'])
@@ -39,9 +39,5 @@ def api_quote(symbol):
     try:
         quote = Quote.from_market_data(symbol)
         return QuoteSerializer().jsonify(quote)
-        # quote2 = {'exchange': quote.exchange,
-        #           'symbol': quote.symbol,
-        #           'price': quote.last_price}
-        # return json.dumps(quote.__dict__)
     except Exception as e:
         return jsonify(e.args[0])

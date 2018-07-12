@@ -6,19 +6,19 @@ from dateutil import parser
 
 
 class MarkitOnDemmandQuoteDecoder(json.JSONDecoder):
-    """Decodes a MarkitOnDemmand JSON object to an Asset JSON object."""
+    """Decodes a MarkitOnDemmand JSON object to a Quote-compatible dictionary."""
 
     def __init__(self, *args, **kwargs):
         super().__init__(object_hook=self.convert, *args, **kwargs)
 
     def convert(self, obj):
-        """Converts a MarkitOnDemmand JSON object to a Asset JSON object.
+        """Converts a MarkitOnDemmand JSON object to a dictionary compatible with model.Quote.
 
         Args:
             - obj: MarkitOnDemmand JSON object
 
         Returns:
-            (dictionary) an Asset JSON Object as a dictionary.
+            (dictionary) a dictionary compatible with model.Quote.
 
         """
 

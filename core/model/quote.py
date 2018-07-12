@@ -4,12 +4,15 @@
 from datetime import datetime
 
 from ..wrapper.markit_wrapper import MarkitOnDemmand
+from .asset import Asset
 
 
 class Quote():
     """Represents a quote of a specific asset (stock, currency, etc.)."""
 
-    def __init(self):
+    def __init__(self):
+        """Class constructor."""
+
         self.name = ''
         self.symbol = ''
         self.exchange = ''
@@ -29,16 +32,6 @@ class Quote():
         self.low = 0.0
         self.open = 0.0
 
-    def __str__(self):
-        """Creates a custom string representation of this instance.
-
-        Returns:
-            str: a string representation of this instance.
-
-        """
-
-        return str(self.__dict__)
-
     @classmethod
     def from_market_data(cls, ticker_symbol):
         """Creates a new instance with updated market data based on a specific 'ticker_symbol'.
@@ -53,27 +46,16 @@ class Quote():
 
         quote = cls()
         quote.__dict__.update(MarkitOnDemmand.quote(ticker_symbol))
-        quote.exchange = quote.get_exchange_name(quote.symbol)
+        quote.exchange = Asset.get_exchange_name(quote.symbol)
         return quote
 
-    @staticmethod
-    def get_exchange_name(ticker_symbol):
-        """Gets the exchange where 'ticker_symbol' is traded.
+    def set_exchange_from_market_data(self):
+        """Uses instance 'symbol' to search the market for the 'exchange' where the symbol is traded.
 
-        Args:
-            ticker_symbol (str): used to identify the exchange where the 'ticker_symbol' is traded.
-
-        Returns:
-            None: if no exchange was found based on 'ticker_symbol'. Otherwise;
-            string: the name of the exchange where 'ticker_symbol' is traded.
-                If 'ticker_symbol' is traded in more than one exchange,
-                returns the first exchange found.
-
-        Raises:
-            ValueError: if an error message is returned from the API.
-
+        If an exchange name is found, sets the instance's attribute 'exchange' with the name found.
+        Otherwise, keeps the current value of instance 's ' exchange ' attribute.
         """
-        return MarkitOnDemmand.lookup_exchange(ticker_symbol)
 
-    def get_ticker_symbol(self, company_name):
-        return MarkitOnDemmand.lookup(company_name)
+        name = Asset.get_exchange_name(self.symbol)
+        if name is not None:
+            self.exchange = name

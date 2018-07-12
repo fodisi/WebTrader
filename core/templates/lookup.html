@@ -92,8 +92,8 @@
                 <form action="{{ url_for('lookup.show_lookup') }}" method="POST" class="form-lookup">
                     <div class="form-row align-items-center">
                         <div class="col-auto">
-                            <label class="sr-only" for="inputCompany">Company Name</label>
-                            <input name="company" type="text" class="form-control mb-2" id="inputCompany" placeholder="Company Name">
+                            <label class="sr-only" for="inputSearchInput">Search Input</label>
+                            <input name="search_input" type="text" class="form-control mb-2" id="inputSearchInput" placeholder="Search Input">
                         </div>
                         <div class="col-auto">
                             <button type="submit" class="btn btn-primary mb-2">Lookup</button>
@@ -102,10 +102,31 @@
                 </form>
 
                 <div class="row">
-                    {% if company %}
-                    <p> {{ company['name'] }} ticker symbol is "{{ company['symbol'] }}". </p>
-                    {% elif error %}
+                    {% if error %}
                     <p> Error: {{ error }}. </p>
+                    {% elif assets %}
+                    <div class="table-responsive">
+                        <table class="table table-striped table-sm">
+                            <!-- Column Headers -->
+                            <thead>
+                                <tr>
+                                    <th>Symbol</th>
+                                    <th>Name</th>
+                                    <th>Exchange</th>
+                                </tr>
+                            </thead>
+                            <!-- Column Values -->
+                            <tbody>
+                                {% for item in assets %}
+                                <tr>
+                                    <td>{{ item['symbol'] }}</td>
+                                    <td>{{ item['name'] }}</td>
+                                    <td>{{ item['exchange'] }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                     {% endif %}
                 </div>
 

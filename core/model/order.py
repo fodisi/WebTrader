@@ -6,11 +6,32 @@ from ..mapper.order_mapper import OrderMapper
 from .user import User
 from .holding import Holding
 from .quote import Quote
+from .order_type import OrderType
 
 
 class Order():
 
+    def __init__(self):
+        self.id = 0
+        self.username = ''
+        self.ticker_symbol = ''
+        self.datetime = datetime.now
+        self.order_type = OrderType.NONE
+        self.unit_price = 0.0
+        self.volume = 0.0
+        self.fee = 0.0
+
+    @property
+    def cost_proceeds(self):
+        if self.order_type == OrderType.MARKET_BUY:
+            return (self.unit_price * self.volume) + self.fee
+        elif self.order_type == OrderType.MARKET_SELL:
+            return (self.unit_price * self.volume) - self.fee
+        else:
+            return 0.0
+
     def buy(self, ticker_symbol, trade_volume, username):
+        # TODO Refactor
         user = User()
         user_balance = user.get_current_balance(username)
         quote = Quote.from_market_data(ticker_symbol)
@@ -23,7 +44,7 @@ class Order():
             OrderMapper().insert_order(username,
                                        ticker_symbol,
                                        datetime.now(),
-                                       'B',
+                                       int(OrderType.MARKET_BUY),
                                        quote.last_price,
                                        trade_volume,
                                        Holding.BROKERAGE_FEE)
@@ -44,6 +65,7 @@ class Order():
             return 'NO_FUNDS'
 
     def sell(self, ticker_symbol, trade_volume, username):
+        # TODO Refactor
         user = User()
         holding = Holding()
         user_balance = user.get_current_balance(username)
@@ -59,7 +81,7 @@ class Order():
             OrderMapper().insert_order(username,
                                        ticker_symbol,
                                        datetime.now(),
-                                       'S',
+                                       int(OrderType.MARKET_SELL),
                                        quote.last_price,
                                        trade_volume,
                                        Holding.BROKERAGE_FEE)
@@ -80,4 +102,15 @@ class Order():
             return 'NO_FUNDS'
 
     def get_order_history(self, username):
-        return OrderMapper().select_order_history(username)
+        orders = OrderMapper().select_order_history(username)
+
+        if orders is None:
+            return None
+
+        result = []
+        for item in orders:
+            order = Order()
+            order.__dict__.update(item)
+            result.append(order)
+
+        return result

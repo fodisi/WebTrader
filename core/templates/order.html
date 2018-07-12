@@ -111,13 +111,13 @@
                         <tbody>
                             {% for item in orders %}
                             <tr>
-                                <td>{{ item['date_time'].strftime('%Y/%m/%d %H:%M:%S') }}</td>
+                                <td>{{ item['datetime'] }}</td>
                                 <td>{{ item['ticker_symbol'] }}</td>
 
-                                {%if item['order_type'] == 'B' %}
-                                <td>Buy</td>
-                                {%elif item['order_type'] == 'S' %}
-                                <td>Sell</td>
+                                {%if item['order_type'] == 0 %}
+                                <td>Buy (Market)</td>
+                                {%elif item['order_type'] == 1 %}
+                                <td>Sell (Market)</td>
                                 {% else %}
                                 <td>Invalid</td>
                                 {% endif %}
@@ -125,14 +125,14 @@
                                 <td>{{ "$ {:,.2f}".format(item['fee']) }}</td>
                                 <td>{{ "$ {:,.2f}".format(item['unit_price']) }}</td>
                                 <td>{{ "$ {:,.2f}".format(item['volume']) }}</td>
-                                <td>{{ "$ {:,.2f}".format(item['volume'] * item['unit_price']) }}</td>
+                                <td>{{ "$ {:,.2f}".format(item['cost_proceeds']) }}</td>
                             </tr>
                             {% endfor %}
                         </tbody>
                     </table>
                 </div>
                 <div>
-                    <p> Cost/Proceeds*: =(Unit Price x Volume). No fees included. </p>
+                    <p> *Cost/Proceeds: Buy = ((Unit Price x Volume) + Fee) | Sell = ((Unit Price x Volume) - Fee). </p>
                 </div>
                 {% endif %}
             </main>
