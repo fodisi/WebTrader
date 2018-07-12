@@ -7,18 +7,25 @@ connection = sqlite3.connect('master.db', check_same_thread=False)
 cursor = connection.cursor()
 
 cursor.execute(
-    """CREATE TABLE users(
+    """
+    CREATE TABLE IF NOT EXISTS
+        users
+    (
         pk INTEGER PRIMARY KEY AUTOINCREMENT,
         username VARCHAR(16) UNIQUE NOT NULL,
         password VARCHAR(32) NOT NULL,
         profile VARCHAR(1) NOT NULL,
         initial_balance FLOAT NOT NULL,
         cur_balance FLOAT NOT NULL
-    );"""
+    );
+    """
 )
 
 cursor.execute(
-    """CREATE TABLE holdings(
+    """
+    CREATE TABLE IF NOT EXISTS 
+        holdings
+    (
         pk INTEGER PRIMARY KEY AUTOINCREMENT,
         username varchar(16) NOT NULL,
         ticker_symbol VARCHAR(10) NOT NULL,
@@ -26,11 +33,16 @@ cursor.execute(
         average_price FLOAT NOT NULL,
         FOREIGN KEY(username) REFERENCES users(username),
         CONSTRAINT unique_username_ticker UNIQUE (username, ticker_symbol)
-    );"""
+    );
+    """
 )
 
+
 cursor.execute(
-    """CREATE TABLE orders(
+    """
+    CREATE TABLE IF NOT EXISTS 
+        orders
+    (
         pk INTEGER PRIMARY KEY AUTOINCREMENT,
         username VARCHAR(16) NOT NULL,
         ticker_symbol VARCHAR(10) NOT NULL,
@@ -40,7 +52,8 @@ cursor.execute(
         volume INTEGER NOT NULL,
         fee FLOAT NOT NULL,
         FOREIGN KEY(username) REFERENCES users(username)
-    );"""
+    );
+    """
 )
 
 cursor.close()
