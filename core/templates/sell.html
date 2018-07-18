@@ -109,7 +109,7 @@
                     {% if status == 'SUCCESS' %}
                     <p> Sell order executed successfully. </p>
                     {% elif status == 'NO_FUNDS' %}
-                    <p> Not enought holdings. Your holding volume for "{{ error_detail['symbol'] }}" is {{ error_detail['hold_volume']
+                    <p> Not enough holdings. Your holding volume for "{{ error_detail['symbol'] }}" is {{ error_detail['hold_volume']
                         }}.
                     </p>
                     {% elif status == 'EXCEPTION' %}

@@ -27,14 +27,14 @@ class Order():
     def __init__(self,
                  id_=0,
                  username='',
-                 ticker_stymbol='',
+                 ticker_symbol='',
                  date_time=datetime.now,
                  order_type=OrderType.NONE,
                  unit_price=0.0,
                  volume=0.0,
                  fee=0.0
                  ):
-        """Class constructor. Initilizes attributes with specified or default values.
+        """Class constructor. Initializes attributes with specified or default values.
 
         Args:
             id (int): the order id.
@@ -50,7 +50,7 @@ class Order():
 
         self.id = id_
         self.username = username
-        self.ticker_symbol = ticker_stymbol
+        self.ticker_symbol = ticker_symbol
         self.date_time = date_time
         self.order_type = order_type
         self.unit_price = unit_price

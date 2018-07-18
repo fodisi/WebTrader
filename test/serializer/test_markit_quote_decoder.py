@@ -5,11 +5,11 @@ import json
 import unittest
 from dateutil import parser
 
-from core.serializer.markit_quote_decoder import MarkitOnDemmandQuoteDecoder
+from core.serializer.markit_quote_decoder import MarkitOnDemandQuoteDecoder
 
 
-class TestMarkitOnDemmandQuoteDecoder(unittest.TestCase):
-    """core.serializer.markit_quote_decoder.MarkitOnDemmandQuoteDecoder tester unit."""
+class TestMarkitOnDemandQuoteDecoder(unittest.TestCase):
+    """core.serializer.markit_quote_decoder.MarkitOnDemandQuoteDecoder tester unit."""
 
     def setUp(self):
         """Setup method executed before every test case."""
@@ -53,9 +53,9 @@ class TestMarkitOnDemmandQuoteDecoder(unittest.TestCase):
         }
 
     def test_decoder(self):
-        """Tests MarkitOnDemmandQuoteDecoder.convert method."""
+        """Tests MarkitOnDemandQuoteDecoder.convert method."""
 
         # Tests convert expecting a successfull decoding.
         json_obj = json.loads(self.markit_json_str,
-                              cls=MarkitOnDemmandQuoteDecoder)
+                              cls=MarkitOnDemandQuoteDecoder)
         self.assertEqual(json_obj, self.quote_dictionary)

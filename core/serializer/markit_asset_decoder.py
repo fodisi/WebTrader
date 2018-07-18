@@ -4,17 +4,17 @@
 import json
 
 
-class MarkitOnDemmandAssetDecoder(json.JSONDecoder):
-    """Decodes a MarkitOnDemmand JSON object to an Asset-compatible dictionary."""
+class MarkitOnDemandAssetDecoder(json.JSONDecoder):
+    """Decodes a MarkitOnDemand JSON object to an Asset-compatible dictionary."""
 
     def __init__(self, *args, **kwargs):
         super().__init__(object_hook=self.convert, *args, **kwargs)
 
     def convert(self, obj):
-        """Converts a MarkitOnDemmand JSON object to a dictionary compatible with model.Asset.
+        """Converts a MarkitOnDemand JSON object to a dictionary compatible with model.Asset.
 
         Args:
-            - obj: MarkitOnDemmand JSON object
+            - obj: MarkitOnDemand JSON object
 
         Returns:
             (dictionary) a dictionary compatible with model.Asset.

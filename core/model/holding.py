@@ -29,7 +29,7 @@ class Holding:
                  ticker_symbol='',
                  volume=0.0,
                  average_price=0.0):
-        """Class constructor. Initilizes attributes with specified or default values.
+        """Class constructor. Initializes attributes with specified or default values.
 
         Args:
             id (int): a unique identifier for the holding record.

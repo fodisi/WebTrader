@@ -5,12 +5,12 @@ import json
 
 import requests
 
-from ..serializer.markit_quote_decoder import MarkitOnDemmandQuoteDecoder
-from ..serializer.markit_asset_decoder import MarkitOnDemmandAssetDecoder
+from ..serializer.markit_quote_decoder import MarkitOnDemandQuoteDecoder
+from ..serializer.markit_asset_decoder import MarkitOnDemandAssetDecoder
 
 
-class MarkitOnDemmand():
-    """Wrapper for MarkitOnDemmand API, version 2, expecting JSON objects as result.
+class MarkitOnDemand():
+    """Wrapper for MarkitOnDemand API, version 2, expecting JSON objects as result.
 
     Supported API Functions:
         - Quote: Quote information about a specific ticker symbol (stock).
@@ -41,15 +41,15 @@ class MarkitOnDemmand():
             The complete URL needed to call the specified API function.
         """
 
-        if api_function.lower() not in MarkitOnDemmand.FUNCTION_PARAMS:
+        if api_function.lower() not in MarkitOnDemand.FUNCTION_PARAMS:
             raise ValueError('Invalid API function {}.'.format(api_function))
 
         # Expected API url format
         endpoint_format = '{url}/{version}/{function}/json?{param_name}={param_value}'
-        return endpoint_format.format(url=MarkitOnDemmand.URL,
-                                      version=MarkitOnDemmand.VERSION,
+        return endpoint_format.format(url=MarkitOnDemand.URL,
+                                      version=MarkitOnDemand.VERSION,
                                       function=api_function.lower(),
-                                      param_name=MarkitOnDemmand.FUNCTION_PARAMS[api_function],
+                                      param_name=MarkitOnDemand.FUNCTION_PARAMS[api_function],
                                       param_value=param_value
                                       )
 
@@ -107,8 +107,8 @@ class MarkitOnDemmand():
             raise ValueError('Missing required parameter "ticker_symbol".')
 
         # Creates and call API endpoint, then loads result into json result object.
-        endpoint = MarkitOnDemmand.build_endpoint(MarkitOnDemmand.FUNCTION_QUOTE,
-                                                  ticker_symbol)
+        endpoint = MarkitOnDemand.build_endpoint(MarkitOnDemand.FUNCTION_QUOTE,
+                                                 ticker_symbol)
         result = requests.get(endpoint)
         # print(result.status_code)
         if not result.ok:
@@ -120,7 +120,7 @@ class MarkitOnDemmand():
         # In case a different Status is returned from the API (unexpected),
         # due to internal errors for instance, raises an exception.
         if 'Status' in json_obj and json_obj['Status'] == 'SUCCESS':
-            return json.loads(result.text, cls=MarkitOnDemmandQuoteDecoder)
+            return json.loads(result.text, cls=MarkitOnDemandQuoteDecoder)
         elif 'Status' in json_obj:
             raise ValueError(json_obj['Status'])
 
@@ -173,8 +173,8 @@ class MarkitOnDemmand():
             raise ValueError('Missing required parameter "search_input".')
 
         # Creates and call API endpoint, then loads result into json result object.
-        endpoint = MarkitOnDemmand.build_endpoint(MarkitOnDemmand.FUNCTION_LOOKUP,
-                                                  search_input)
+        endpoint = MarkitOnDemand.build_endpoint(MarkitOnDemand.FUNCTION_LOOKUP,
+                                                 search_input)
         result = requests.get(endpoint)
         if not result.ok:
             result.raise_for_status()
@@ -185,7 +185,7 @@ class MarkitOnDemmand():
             raise ValueError(json_obj['Message'])
 
         # If no error was found, converts the JSON to a list of dictionaries.
-        json_obj = json.loads(result.text, cls=MarkitOnDemmandAssetDecoder)
+        json_obj = json.loads(result.text, cls=MarkitOnDemandAssetDecoder)
 
         return json_obj if (len(json_obj) > 0) else None
 
@@ -216,7 +216,7 @@ class MarkitOnDemmand():
         # PS: Before looping the result, must check for None, since it no iterable.
         # Then, it would raise an exception, which is not the desired behavior.
 
-        result = MarkitOnDemmand.lookup(ticker_symbol)
+        result = MarkitOnDemand.lookup(ticker_symbol)
 
         if result is None:
             return None

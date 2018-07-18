@@ -19,9 +19,8 @@ def __buy(symbol, volume, username):
         status = Order().buy(symbol, int(volume), username)
 
         # TODO Make user see details about the transaction cost.
-        # If user doesn't have enought funds, sets error_details  available balance.
+        # If user doesn't have enough funds, sets error_details  available balance.
         if status == 'NO_FUNDS':
-            with
             error_detail = User().get_current_balance(username)
     except Exception as e:
         status = 'EXCEPTION'
@@ -38,37 +37,36 @@ def show_buy():
         return __buy(request.form['symbol'], request.form['volume'], session['user'])
 
 
-@buy_ctrl.route('/api/', methods=['POST'])
-def api_buy():
-    # TODO Improve validations related to parameters.
-    symbol = request.args.get('symbol')
-    volume = request.args.get('volume')
+# @buy_ctrl.route('/api/', methods=['POST'])
+# def api_buy():
+#     # TODO Improve validations related to parameters.
+#     symbol = request.args.get('symbol')
+#     volume = request.args.get('volume')
 
-    # At least the username must be provided. If not, returns error.
-    error = {}
-    if symbol is None:
-        error["SymbolError"] = "Missing required parameter 'symbol'."
-    if volume is None:
-        error["VolumeError"] = "Missing required parameter 'volume'."
-    try:
-        volume = float(volume)
+#     # At least the username must be provided. If not, returns error.
+#     error = {}
+#     if symbol is None:
+#         error["SymbolError"] = "Missing required parameter 'symbol'."
+#     if volume is None:
+#         error["VolumeError"] = "Missing required parameter 'volume'."
+#     try:
+#         volume = float(volume)
 
+#         response = jsonify({
+#             "Error": '',
+#             "SupportedHoldingsEndpoints:": [
+#                 {"UserHoldings": "/api/holdings/?username='username'"},
+#                 {"UserHoldingsByTickerSymbol": "/api/holdings/?username='username'&symbol='symbol'"}
+#             ]
+#         })
+#         response.status_code = 400  # bad request
+#         return response
 
-        response = jsonify({
-            "Error":,
-            "SupportedHoldingsEndpoints:": [
-                {"UserHoldings": "/api/holdings/?username='username'"},
-                {"UserHoldingsByTickerSymbol": "/api/holdings/?username='username'&symbol='symbol'"}
-            ]
-        })
-        response.status_code = 400  # bad request
-        return response
+#     try:
 
-    try:
-
-        response.status_code = 200
-        return response
-    except Exception as e:
-        response = jsonify({"Error": e.args[0]})
-        response.status_code = 500  # Server error
-        return response
+#         response.status_code = 200
+#         return response
+#     except Exception as e:
+#         response = jsonify({"Error": e.args[0]})
+#         response.status_code = 500  # Server error
+#         return response

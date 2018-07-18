@@ -3,7 +3,7 @@
 
 from datetime import datetime
 
-from ..wrapper.markit_wrapper import MarkitOnDemmand
+from ..wrapper.markit_wrapper import MarkitOnDemand
 from .asset import Asset
 
 
@@ -35,7 +35,7 @@ class Quote():
     def __init__(self,
                  name='',
                  symbol=''):
-        """Class constructor. Initilizes attributes with specified or default values.
+        """Class constructor. Initializes attributes with specified or default values.
 
         Args:
             name (str): the name of the asset.
@@ -75,7 +75,7 @@ class Quote():
         """
 
         quote = Quote()
-        quote.__dict__.update(MarkitOnDemmand.quote(ticker_symbol))
+        quote.__dict__.update(MarkitOnDemand.quote(ticker_symbol))
         quote.exchange = Asset.get_exchange_name(quote.symbol)
         return quote
 

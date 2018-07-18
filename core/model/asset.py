@@ -1,7 +1,7 @@
 #!usr/bin/env python3
 
 
-from ..wrapper.markit_wrapper import MarkitOnDemmand
+from ..wrapper.markit_wrapper import MarkitOnDemand
 
 
 class Asset():
@@ -18,7 +18,7 @@ class Asset():
                  name='',
                  symbol='',
                  exchange=''):
-        """Class constructor. Initilizes attributes with specified or default values.
+        """Class constructor. Initializes attributes with specified or default values.
 
         Args:
             name (str): name of the asset.
@@ -44,13 +44,13 @@ class Asset():
 
         """
         try:
-            result = MarkitOnDemmand.lookup(search_input)
+            result = MarkitOnDemand.lookup(search_input)
         except ValueError:
-            # ValueError is expected when calling MarkitOnDemmand.lookup.
+            # ValueError is expected when calling MarkitOnDemand.lookup.
             # In such cases, just raises the error to be handled by an upper layer.
             raise
         else:
-            # MarkitOnDemmand.lookup may return None if nothing is found for search_input.
+            # MarkitOnDemand.lookup may return None if nothing is found for search_input.
             if result is None:
                 return None
 
@@ -79,4 +79,4 @@ class Asset():
             ValueError: if an error message is returned from the API.
 
         """
-        return MarkitOnDemmand.lookup_exchange(ticker_symbol)
+        return MarkitOnDemand.lookup_exchange(ticker_symbol)

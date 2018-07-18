@@ -5,17 +5,17 @@ import json
 from dateutil import parser
 
 
-class MarkitOnDemmandQuoteDecoder(json.JSONDecoder):
-    """Decodes a MarkitOnDemmand JSON object to a Quote-compatible dictionary."""
+class MarkitOnDemandQuoteDecoder(json.JSONDecoder):
+    """Decodes a MarkitOnDemand JSON object to a Quote-compatible dictionary."""
 
     def __init__(self, *args, **kwargs):
         super().__init__(object_hook=self.convert, *args, **kwargs)
 
     def convert(self, obj):
-        """Converts a MarkitOnDemmand JSON object to a dictionary compatible with model.Quote.
+        """Converts a MarkitOnDemand JSON object to a dictionary compatible with model.Quote.
 
         Args:
-            - obj: MarkitOnDemmand JSON object
+            - obj: MarkitOnDemand JSON object
 
         Returns:
             (dictionary) a dictionary compatible with model.Quote.

@@ -4,11 +4,11 @@
 import json
 import unittest
 
-from core.serializer.markit_asset_decoder import MarkitOnDemmandAssetDecoder
+from core.serializer.markit_asset_decoder import MarkitOnDemandAssetDecoder
 
 
-class TestMarkitOnDemmandAssetDecoder(unittest.TestCase):
-    """core.serializer.markit_asset_decoder.MarkitOnDemmandAssetDecoder tester unit."""
+class TestMarkitOnDemandAssetDecoder(unittest.TestCase):
+    """core.serializer.markit_asset_decoder.MarkitOnDemandAssetDecoder tester unit."""
 
     def setUp(self):
         """Setup method executed before every test case."""
@@ -25,9 +25,9 @@ class TestMarkitOnDemmandAssetDecoder(unittest.TestCase):
         }
 
     def test_decoder(self):
-        """Tests MarkitOnDemmandAssetDecoder.convert method."""
+        """Tests MarkitOnDemandAssetDecoder.convert method."""
 
         # Tests convert expecting a successfull decoding.
         json_obj = json.loads(self.markit_json_str,
-                              cls=MarkitOnDemmandAssetDecoder)
+                              cls=MarkitOnDemandAssetDecoder)
         self.assertEqual(json_obj, self.asset_dictionary)
