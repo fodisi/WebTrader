@@ -6,12 +6,12 @@ from ..model.order import Order
 from ..serializer.order_serializer import OrderSerializer
 
 
-order_ctrl = Blueprint('order', __name__)
+order_ctrl = Blueprint('order', __name__, url_prefix='/orders')
 
 html_filename = 'order.html'
 
 
-@order_ctrl.route('/order', methods=['GET'])
+@order_ctrl.route('/', methods=['GET'])
 def show_order():
     try:
         orders = Order().get_order_history(session['user'])
@@ -22,7 +22,7 @@ def show_order():
         return render_template(html_filename, orders=result)
 
 
-@order_ctrl.route('/api/orders/<username>', methods=['GET'])
+@order_ctrl.route('/api/<username>', methods=['GET'])
 def api_orders(username):
     try:
         orders = Order().get_order_history(username)
