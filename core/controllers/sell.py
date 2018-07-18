@@ -2,8 +2,8 @@
 
 from flask import Blueprint, render_template, request, session
 
-from core.model.order import Order
-from core.model.holding import Holding
+from ..model.order import Order
+from ..model.holding import Holding
 
 
 sell_ctrl = Blueprint('sell', __name__, url_prefix='/sell')
@@ -18,7 +18,7 @@ def __sell(symbol, volume, username):
         # Executes the order and stores the status (SUCCESS or NO_FUNDS)
         status = Order().sell(symbol, int(volume), username)
 
-        # If user doesn't have enought holdings, sets error_details with available balance.
+        # If user doesn't have enough holdings, sets error_details with available balance.
         if status == 'NO_FUNDS':
             hold_volume = Holding().get_holding_volume(username, symbol)
             error_detail = {'symbol': symbol, 'hold_volume': hold_volume}

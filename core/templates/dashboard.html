@@ -37,7 +37,7 @@
                 <div class="sidebar-sticky">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('home.show_home') }}">
+                            <a class="nav-link" href="{{ url_for('account_home.show_account_home') }}">
                                 <span data-feather="home"></span>
                                 Home
                             </a>
@@ -92,6 +92,7 @@
                     <div class="btn-toolbar mb-2 mb-md-0">
                     </div>
                 </div>
+                <p> An error occurred while retrieving data from server. </p>
                 <p> Error: {{ error }}. </p>
             </main>
             {% elif pl %}
@@ -148,7 +149,7 @@
                             <p>Unrealized Account Value:
                                 <b>{{ "$ {:,.2f}".format(pl['account_mkt_value']) }}</b>
                             </p>
-                            <p>Unealized P/L | (%):
+                            <p>Unrealized P/L | (%):
                                 <b>{{ "$ {:,.2f}".format(pl['unreal_pl_value']) }} ({{ " {:,.2f}".format(pl['unreal_pl_percent'])
                                     }} %)</b>
                             </p>

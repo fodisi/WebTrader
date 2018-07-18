@@ -2,7 +2,7 @@
 
 from datetime import datetime
 
-from core.mapper.base_mapper import BaseMapper
+from ..mapper.base_mapper import BaseMapper
 
 
 class OrderMapper(BaseMapper):
@@ -10,7 +10,7 @@ class OrderMapper(BaseMapper):
                      username,
                      ticker_symbol,
                      date_time,
-                     transaction_type,
+                     order_type,
                      unit_price,
                      volume,
                      fee):
@@ -21,7 +21,7 @@ class OrderMapper(BaseMapper):
                 username,
                 ticker_symbol,
                 date_time,
-                transaction_type,
+                order_type,
                 unit_price,
                 volume,
                 fee
@@ -31,7 +31,7 @@ class OrderMapper(BaseMapper):
                 '{username}',
                 '{ticker_symbol}',
                 '{date_time}',
-                '{transaction_type}',
+                '{order_type}',
                 {unit_price},
                 {volume},
                 {fee}
@@ -41,7 +41,7 @@ class OrderMapper(BaseMapper):
             username=username,
             ticker_symbol=ticker_symbol,
             date_time=date_time,
-            transaction_type=transaction_type,
+            order_type=order_type,
             unit_price=unit_price,
             volume=volume,
             fee=fee
@@ -56,7 +56,7 @@ class OrderMapper(BaseMapper):
                 username,
                 ticker_symbol,
                 strftime('%Y/%m/%d %H:%M:%S', date_time),
-                transaction_type,
+                order_type,
                 unit_price,
                 volume,
                 fee
@@ -75,11 +75,11 @@ class OrderMapper(BaseMapper):
             order_list = []
             for row in result:
                 order = {}
-                order['pk'] = row[0]
+                order['id'] = row[0]
                 order['username'] = row[1]
                 order['ticker_symbol'] = row[2]
-                order['date_time'] = datetime.strptime(row[3],
-                                                       '%Y/%m/%d  %H:%M:%S')
+                order['datetime'] = datetime.strptime(row[3],
+                                                      '%Y/%m/%d  %H:%M:%S')
                 order['order_type'] = row[4]
                 order['unit_price'] = row[5]
                 order['volume'] = row[6]

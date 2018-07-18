@@ -2,14 +2,14 @@
 
 import unittest
 
-from core.wrapper.markit_wrapper import MarkitOnDemmand as wrapper
+from core.wrapper.markit_wrapper import MarkitOnDemand as wrapper
 
 
-class TestMarkitOnDemmandWrapper(unittest.TestCase):
-    """core.wrapper.markit_wrapper.MarkitOnDemmandWrapper unit tester."""
+class TestMarkitOnDemandWrapper(unittest.TestCase):
+    """core.wrapper.markit_wrapper.MarkitOnDemandWrapper unit tester."""
 
     def test_build_endpoint(self):
-        """Tests MarkitOnDemmand.build_endpoint(Quote | Lookup |Invalid function name)."""
+        """Tests MarkitOnDemand.build_endpoint(Quote | Lookup |Invalid function name)."""
 
         # Tests QUOTE endpoint.
         expected = 'http://dev.markitondemand.com/MODApis/Api/v2/quote/json?symbol=tsla'
@@ -31,7 +31,7 @@ class TestMarkitOnDemmandWrapper(unittest.TestCase):
         self.assertTrue(v.exception.args[0].lower().startswith('invalid api'))
 
     def test_quote(self):
-        """Tests MarkitOnDemmand.quote(Valid Symbol | Invalid Symbol | Missing Symbol)."""
+        """Tests MarkitOnDemand.quote(Valid Symbol | Invalid Symbol | Missing Symbol)."""
 
         # Tests for a request with a valid symbol.
         result = wrapper.quote('tsla')
@@ -51,7 +51,7 @@ class TestMarkitOnDemmandWrapper(unittest.TestCase):
             empty.exception.args[0].lower().startswith('missing required parameter'))
 
     def test_lookup(self):
-        """Tests MarkitOnDemmand.lookup(Valid Input | Invalid Input | Missing Input)."""
+        """Tests MarkitOnDemand.lookup(Valid Input | Invalid Input | Missing Input)."""
 
         # Tests for a request with a valid input.
         result = wrapper.lookup('tesla')
@@ -68,7 +68,7 @@ class TestMarkitOnDemmandWrapper(unittest.TestCase):
             invalid.exception.args[0].lower().startswith('missing required parameter'))
 
     def test_lookup_exchange(self):
-        """Tests MarkitOnDemmand.lookup_exchange(Valid Symbol | Invalid Symbol | Missing Symbol)."""
+        """Tests MarkitOnDemand.lookup_exchange(Valid Symbol | Invalid Symbol | Missing Symbol)."""
 
         # Tests for a request with a valid ticker symbol.
         result = wrapper.lookup_exchange('tsla')

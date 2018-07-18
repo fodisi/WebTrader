@@ -36,7 +36,7 @@
                 <div class="sidebar-sticky">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('home.show_home') }}">
+                            <a class="nav-link" href="{{ url_for('account_home.show_account_home') }}">
                                 <span data-feather="home"></span>
                                 Home
                             </a>
@@ -112,9 +112,7 @@
                     <div class="tradingview-widget-container">
                         <div class="tradingview-widget-copyright">
                             <a href="https://www.tradingview.com/symbols/{{ quote['exchange'] }}-{{ quote['symbol'] }}/" rel="noopener" target="_blank">
-                                <span class="blue-text">{{ quote['exchange'] }} : {{ quote['symbol'] }} chart {{ "(Quote: $ {:,.2f})".format(quote['price'])
-                                    }}
-                                </span>
+                                <span class="blue-text">{{ quote['exchange'] }} : {{ quote['symbol'] }} Chart | Quote</span>
                             </a>
                         </div>
                         <div id="tradingview_7e8cf"></div>
@@ -123,7 +121,7 @@
                             new TradingView.widget(
                                 {
                                     "width": 1200,
-                                    "height": 610,
+                                    "height": 550,
                                     "symbol": "{{ quote['exchange'] }}:{{ quote['symbol'] }}",
                                     "interval": "D",
                                     "timezone": "Etc/UTC",

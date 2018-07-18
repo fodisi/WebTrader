@@ -36,7 +36,7 @@
                 <div class="sidebar-sticky">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('home.show_home') }}">
+                            <a class="nav-link" href="{{ url_for('account_home.show_account_home') }}">
                                 <span data-feather="home"></span>
                                 Home
                             </a>
@@ -109,7 +109,7 @@
                     {% if status == 'SUCCESS' %}
                     <p> Buy order executed successfully. </p>
                     {% elif status == 'NO_FUNDS' %}
-                    <p> Not enought funds available. Your current balance is $ {{ "{:,.2f}".format(error_detail) }}. </p>
+                    <p> Not enough funds available. Your current balance is $ {{ "{:,.2f}".format(error_detail) }}. </p>
                     {% elif status == 'EXCEPTION' %}
                     <p> Operation not executed. Error: {{ error_detail }}. </p>
                     {% endif %}

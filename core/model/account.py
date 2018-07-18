@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-from core.model.user import User
-from core.model.holding import Holding
+from .user import User
+from .holding import Holding
 
 
 class Account():

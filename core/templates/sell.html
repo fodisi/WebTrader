@@ -36,7 +36,7 @@
                 <div class="sidebar-sticky">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('home.show_home') }}">
+                            <a class="nav-link" href="{{ url_for('account_home.show_account_home') }}">
                                 <span data-feather="home"></span>
                                 Home
                             </a>
@@ -109,7 +109,7 @@
                     {% if status == 'SUCCESS' %}
                     <p> Sell order executed successfully. </p>
                     {% elif status == 'NO_FUNDS' %}
-                    <p> Not enought holdings. Your holding volume for "{{ error_detail['symbol'] }}" is {{ error_detail['hold_volume']
+                    <p> Not enough holdings. Your holding volume for "{{ error_detail['symbol'] }}" is {{ error_detail['hold_volume']
                         }}.
                     </p>
                     {% elif status == 'EXCEPTION' %}

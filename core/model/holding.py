@@ -1,16 +1,66 @@
 #!/usr/bin/env python3
 
-
-from core.model.asset_quote import AssetQuote
-from core.mapper.holding_mapper import HoldingMapper
+from ..mapper.holding_mapper import HoldingMapper
+from .quote import Quote
 
 
 class Holding:
+    """A Holding summarizes all the buy and sell orders for a specific asset related to an account (user).
+    Everytime an account buys a new asset, the volume bought is added to the specific asset holding record,
+    and the average price of the asset is recalculated to reflect the last order.
+    A similar process is performed when an account (user) sells an asset, decresing the holding volume of
+    that specific asset.
+
+    Attributes:
+        id (int): a unique identifier for the holding record.
+        username (str): the account's username that owns the asset.
+        ticker_symbol (str): the asset owned.
+        volume (float): the total volume owned by the account of a specific asset.
+        average_price (float): average price paid for the asset, including fees.
+
+    """
+
     BROKERAGE_FEE = 6.95
+    """Default brokerage fee paid by each transaction. This is fixed for simplified use case."""
+
+    def __init__(self,
+                 id=0,
+                 username='',
+                 ticker_symbol='',
+                 volume=0.0,
+                 average_price=0.0):
+        """Class constructor. Initializes attributes with specified or default values.
+
+        Args:
+            id (int): a unique identifier for the holding record.
+            username (str): the account's username that owns the asset.
+            ticker_symbol (str): the asset owned.
+            volume (float): the total volume owned by the account of a specific asset.
+            average_price (float): average price paid for the asset, including fees.
+
+        """
+
+        self.id = id
+        self.username = username
+        self.ticker_symbol = ticker_symbol
+        self.volume = volume
+        self.average_price = average_price
+
+    def __dict_to_holding(self, obj):
+
+        if not isinstance(obj, dict):
+            msg = 'Invalid argument type. Expecting "{0}" type; Received "{1}" type.'
+            raise TypeError(msg.format(dict, type(obj)))
+
+        holding = Holding()
+        holding.__dict__.update(obj)
+        return holding
 
     def update_holdings(self, username, ticker_symbol, trade_volume,
                         trade_unit_price, transaction_type):
-        holdings = self.get_user_holdings_by_symbol(username, ticker_symbol)
+        # TODO REPLACE MAPPER FUNCTION BY CLASS FUNCTION
+        # holdings = self.get_user_holdings_by_symbol(username, ticker_symbol)
+        holdings = HoldingMapper().select_holdings_by_symbol(username, ticker_symbol)
 
         if holdings is not None:
             # Buy
@@ -48,29 +98,68 @@ class Holding:
 
     def get_holding_volume(self, username, ticker_symbol):
         holding_volume = 0
-        holdings = self.get_user_holdings_by_symbol(username, ticker_symbol)
+        # TODO REPLACE MAPPER FUNCTION BY CLASS FUNCTION
+        # holdings = self.get_user_holdings_by_symbol(username, ticker_symbol)
+        holdings = HoldingMapper().select_holdings_by_symbol(username, ticker_symbol)
         if holdings is not None:
             holding_volume = holdings['volume']
         return holding_volume
 
-    def get_user_holdings_by_symbol(self, username, ticker_symbol):
-        return HoldingMapper().select_holdings_by_symbol(username, ticker_symbol)
+    def get_user_holding_by_symbol(self, username, ticker_symbol):
+        """Gets a specific ticker symbol's holding, for a specific account.
+
+        Args:
+            username (str): username's account to look for holding records.
+            ticker_symbol (str): a specific ticker symbol to look for holding records.
+
+        Returns:
+            Holding: if a holding for 'ticker_symbol' is found for the account ('username').
+            None: if the account associated with the 'username' has no holdings for 'ticker_symbol'.
+
+        """
+
+        result = HoldingMapper().select_holdings_by_symbol(username, ticker_symbol)
+        if result is None:
+            return None
+
+        return self.__dict_to_holding(result)
 
     def get_user_holdings(self, username):
-        return HoldingMapper().select_holdings_by_username(username)
+        """Gets all holdings of a specific account.
+
+        Args:
+            username (str): username associated with the account to look for holding records.
+
+        Returns:
+            Holding[]: if holdings are found for the account ('username').
+            None: if not holdings are found.
+
+        """
+        result = HoldingMapper().select_holdings_by_username(username)
+
+        if result is None:
+            return None
+
+        holdings = []
+        for item in result:
+            holdings.append(self.__dict_to_holding(item))
+
+        return holdings
 
     def get_holdings_with_market_value(self, username):
         mkt_holding_list = None
-        user_holdings = self.get_user_holdings(username)
+        # TODO REPLACE MAPPER FUNCTION BY CLASS FUNCTION
+        # user_holdings = self.get_user_holdings(username)
+        user_holdings = HoldingMapper().select_holdings_by_username(username)
         if user_holdings is not None:
             mkt_holding_list = []
             # Generates an updated holding list containing market price info
             for item in user_holdings:
                 # Gets updated market price
-                quote = AssetQuote.from_market_data(item['ticker_symbol'])
+                quote = Quote.from_market_data(item['ticker_symbol'])
                 # Creates and fills holdings dictionary with updated market info
                 mkt_holding = {}
-                mkt_holding['pk'] = item['pk']
+                mkt_holding['id'] = item['id']
                 mkt_holding['username'] = item['username']
                 mkt_holding['ticker_symbol'] = item['ticker_symbol']
                 mkt_holding['volume'] = item['volume']
