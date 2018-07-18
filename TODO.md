@@ -2,7 +2,7 @@
 /
 - Change __init__.py to generate random session key
 
-
+- restructure directory to best practices. see https://www.digitalocean.com/community/tutorials/how-to-structure-large-flask-applications
 
 ################################### CORE ###################################
 
@@ -19,8 +19,17 @@ OK - reafactor template to use list of objects / JSON
 ####### CONTROLLERS ########
 
 - Refactor non-REST functions to use JSON objects as a result
-CONVERT CONTROLLERS TO CLASSES
-    - All of them
+
+- Include HTTP codes in all API-REST functions.
+
+- CONVERT CONTROLLERS TO CLASSES and rename file names to identify as controller
+    - Dashboard
+    - lookup
+    - order
+    - quote
+    - sell
+    - Dashboard
+    - holding
 
 /controllers
 - IMPLEMENT REST API
@@ -31,13 +40,22 @@ CONVERT CONTROLLERS TO CLASSES
     OK - Order
     - Dashboard
 
-
+- Implement ADMIN controllers
+    - add user
+    - delete user
+    - update user
+    - list users
+    - list users ranking dashboard
 
 /controller/quote
 - Check problem that's happening when input BTC, ETH. Apparently they are known to MarkitOneDemmand, but do not return 
     standard error message neither return a valid result.
 
 ####### MODEL ########
+
+ALL Models
+- Refactor MODELS to be totally object-oriented, with inheritance and composition, plus refactor methods to user classes attributes.
+
 
 /model/quote
 OK - remove __str__ method.
