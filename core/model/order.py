@@ -10,19 +10,62 @@ from .order_type import OrderType
 
 
 class Order():
+    """Represents an order to buy or sell a specific asset (stock, currency, etc.).
 
-    def __init__(self):
-        self.id = 0
-        self.username = ''
-        self.ticker_symbol = ''
-        self.datetime = datetime.now
-        self.order_type = OrderType.NONE
-        self.unit_price = 0.0
-        self.volume = 0.0
-        self.fee = 0.0
+    Attributes:
+        id (int): the order id.
+        username (str): the username placing the order.
+        ticker_symbol (str): the asset ticker symbol.
+        date_time (datetime): the date/time the order is/was placed.
+        order_type (OrderType): indicates if the order is a buy or sell order.
+        unit_price (float): the unit price paid for the asset.
+        volume (float): the asset volume that is/was bought or sold.
+        fee (float): the fee paid for placing the order.
+
+    """
+
+    def __init__(self,
+                 id_=0,
+                 username='',
+                 ticker_stymbol='',
+                 date_time=datetime.now,
+                 order_type=OrderType.NONE,
+                 unit_price=0.0,
+                 volume=0.0,
+                 fee=0.0
+                 ):
+        """Class constructor. Initilizes attributes with specified or default values.
+
+        Args:
+            id (int): the order id.
+            username (str): the username placing the order.
+            ticker_symbol (str): the asset ticker symbol.
+            date_time (datetime): the date/time the order is/was placed.
+            order_type (OrderType): indicates if the order is a buy or sell order.
+            unit_price (float): the unit price paid for the asset.
+            volume (float): the asset volume that is/was bought or sold.
+            fee (float): the fee paid for placing the order.
+
+        """
+
+        self.id = id_
+        self.username = username
+        self.ticker_symbol = ticker_stymbol
+        self.date_time = date_time
+        self.order_type = order_type
+        self.unit_price = unit_price
+        self.volume = volume
+        self.fee = fee
 
     @property
     def cost_proceeds(self):
+        """Represents the total cost/proceeds of an order.
+
+        Calculation formula according to order type:
+            Buy  : cost/proceeds = (unit_price * volume) + fee;
+            Sell : cost/proceeds = (unit_price * volume) - fee;
+
+        """
         if self.order_type == OrderType.MARKET_BUY:
             return (self.unit_price * self.volume) + self.fee
         elif self.order_type == OrderType.MARKET_SELL:
@@ -102,6 +145,16 @@ class Order():
             return 'NO_FUNDS'
 
     def get_order_history(self, username):
+        """Gets the order history of a specific user, determined by 'username'.
+
+        Args:
+            username(str): username to be used when looking for order history.
+
+        Returns:
+            None: if 'username' has no record in its order history.
+            Order[]: A list containing all orders placed by the 'username'.
+        """
+
         orders = OrderMapper().select_order_history(username)
 
         if orders is None:

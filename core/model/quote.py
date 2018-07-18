@@ -8,13 +8,43 @@ from .asset import Asset
 
 
 class Quote():
-    """Represents a quote of a specific asset (stock, currency, etc.)."""
+    """Represents a quote of a specific asset (stock, currency, etc.).
 
-    def __init__(self):
-        """Class constructor."""
+    Attributes:
+        name (str): the asset name (may be the company name, currency, etc.).
+        symbol (str): the ticker symbol used for trading the asset (and to serve as an unique identifier).
+        exchange (str): the name of the exchange where the asset is traded.
+        last_price (float): the last price (quote) of the asset.
+        change_1h (float): The change in price of the asset since the last hour. Used for cryptomarkets only.
+        change_percent_1h (float): The change percent in price of the asset since the last hour. Used for cryptomarkets only.
+        change_1d (float): The change in price of the asset since last the day.
+        change_percent_1d: The change percent in price of the asset since last the day.
+        change_7d (float): The change in price of the asset since the last 07 days.
+        change_percent_7d (float): The change percent in price of the asset since the last 07 days.
+        change_year (float): The change in price of the asset since the beggining of the year.
+        change_percent_year (float): The change percent in price of the asset since the beggining of the year.
+        date_time (datetime): The last time the asset was traded in exchange-local timezone.
+        market_cap (float): The asset's market cap.
+        volume (float): The trade volume of the asset.
+        high (float): The high price of the asset in the trading session.
+        low (float): The low price of the asset in the trading session.
+        open (float): The opening price of the asset at the start of the trading session.
 
-        self.name = ''
-        self.symbol = ''
+    """
+
+    def __init__(self,
+                 name='',
+                 symbol=''):
+        """Class constructor. Initilizes attributes with specified or default values.
+
+        Args:
+            name (str): the name of the asset.
+            symbol (str): the ticker symbol used for trading the asset (and to serve as an unique identifier).
+
+        """
+
+        self.name = name
+        self.symbol = symbol
         self.exchange = ''
         self.last_price = 0.0
         self.change_1h = 0.0  # Used for cryptomarkets only
@@ -25,15 +55,15 @@ class Quote():
         self.change_percent_7d = 0.0  # Used for cryptomarkets only
         self.change_year = 0.0  # Used for stock and cryptomarkets
         self.change_percent_year = 0.0  # Used for stock and cryptomarkets
-        self.timestamp = datetime.now
+        self.date_time = datetime.now
         self.market_cap = 0
         self.volume = 0
         self.high = 0.0
         self.low = 0.0
         self.open = 0.0
 
-    @classmethod
-    def from_market_data(cls, ticker_symbol):
+    @staticmethod
+    def from_market_data(ticker_symbol):
         """Creates a new instance with updated market data based on a specific 'ticker_symbol'.
 
         Args:
@@ -44,7 +74,7 @@ class Quote():
 
         """
 
-        quote = cls()
+        quote = Quote()
         quote.__dict__.update(MarkitOnDemmand.quote(ticker_symbol))
         quote.exchange = Asset.get_exchange_name(quote.symbol)
         return quote

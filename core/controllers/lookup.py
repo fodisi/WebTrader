@@ -6,31 +6,30 @@ from ..model.asset import Asset
 from ..serializer.asset_serializer import AssetSerializer
 
 
-lookup_ctrl = Blueprint('lookup', __name__)
+lookup_ctrl = Blueprint('lookup', __name__, url_prefix='/lookup')
 
 html_filename = 'lookup.html'
 
 
-def __lookup(company_name):
-    company = None
-    error = None
-    try:
-        lookups = Asset.assets_from_market_data(company_name)
-        company = {'name': company_name, 'symbol': lookups}
-    except Exception as e:
-        error = e.args[0]
+# def __lookup(company_name):
+#     company = None
+#     error = None
+#     try:
+#         lookups = Asset.search_market_assets(company_name)
+#         company = {'name': company_name, 'symbol': lookups}
+#     except Exception as e:
+#         error = e.args[0]
 
-    return render_template(html_filename, company=company, error=error)
+#     return render_template(html_filename, company=company, error=error)
 
 
-@lookup_ctrl.route('/lookup', methods=['GET', 'POST'])
+@lookup_ctrl.route('/', methods=['GET', 'POST'])
 def show_lookup():
     if request.method == 'GET':
         return render_template(html_filename)
     else:
         try:
-            lookups = Asset.assets_from_market_data(
-                request.form['search_input'])
+            lookups = Asset.search_market_assets(request.form['search_input'])
             result = AssetSerializer().dump(lookups, many=True).data
         except Exception as e:
             return render_template(html_filename, error=e.args[0])
@@ -38,10 +37,10 @@ def show_lookup():
             return render_template(html_filename, assets=result)
 
 
-@lookup_ctrl.route('/api/lookup/<search_input>', methods=['GET'])
+@lookup_ctrl.route('/api/<search_input>', methods=['GET'])
 def api_lookup(search_input):
     try:
-        assets = Asset.assets_from_market_data(search_input)
+        assets = Asset.search_market_assets(search_input)
         return AssetSerializer().jsonify(assets, many=True)
     except Exception as e:
         return jsonify(e.args[0])

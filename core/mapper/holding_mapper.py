@@ -28,7 +28,7 @@ class HoldingMapper(BaseMapper):
         if len(result) > 0:
             holding = {}
             row = result[0]
-            holding['pk'] = row[0]
+            holding['id'] = row[0]
             holding['username'] = row[1]
             holding['ticker_symbol'] = row[2]
             holding['volume'] = row[3]
@@ -61,7 +61,7 @@ class HoldingMapper(BaseMapper):
             holding_list = []
             for row in result:
                 holding = {}
-                holding['pk'] = row[0]
+                holding['id'] = row[0]
                 holding['username'] = row[1]
                 holding['ticker_symbol'] = row[2]
                 holding['volume'] = row[3]

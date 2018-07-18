@@ -37,7 +37,7 @@ class MarkitOnDemmandQuoteDecoder(json.JSONDecoder):
                     'change_percent_7d': 0.0,
                     'change_year': obj['ChangeYTD'],
                     'change_percent_year': obj['ChangePercentYTD'],
-                    'timestamp': parser.parse(obj['Timestamp']),
+                    'date_time': parser.parse(obj['Timestamp']),
                     'market_cap': obj['MarketCap'],
                     'volume': obj['Volume'],
                     'high': obj['High'],

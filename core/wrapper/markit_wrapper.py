@@ -110,6 +110,7 @@ class MarkitOnDemmand():
         endpoint = MarkitOnDemmand.build_endpoint(MarkitOnDemmand.FUNCTION_QUOTE,
                                                   ticker_symbol)
         result = requests.get(endpoint)
+        # print(result.status_code)
         if not result.ok:
             result.raise_for_status()
 

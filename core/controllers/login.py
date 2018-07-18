@@ -4,7 +4,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, sessio
 
 from ..model.user import User
 from ..model.account import Account
-from . import home
+from . import account_home
 
 
 login_ctrl = Blueprint('login', __name__)
@@ -24,8 +24,7 @@ def show_login():
         password = request.form['password']
         if try_login(username, password):
             session['user'] = username
-            session['francis'] = username
-            return redirect(url_for('home.show_home'))
+            return redirect(url_for('account_home.show_account_home'))
         else:
             session['user'] = ''
             return render_template('login.html', login_error='error')

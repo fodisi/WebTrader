@@ -44,7 +44,7 @@ class TestMarkitOnDemmandQuoteDecoder(unittest.TestCase):
             "change_percent_7d": 0.0,
             "change_year": 1.0,
             "change_percent_year": 1.0,
-            "timestamp": parser.parse("Mon Jan 1 02:30:40 UTC-04:00 2010"),
+            "date_time": parser.parse("Mon Jan 1 02:30:40 UTC-04:00 2010"),
             "market_cap": 1,
             "volume": 1,
             "high": 1.0,

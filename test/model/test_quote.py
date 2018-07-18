@@ -8,7 +8,7 @@ from core.model.quote import Quote
 
 
 class TestQuote(unittest.TestCase):
-    """core.model.quote.Quote tester unit."""
+    """core.model.quote.Quote unit tester."""
 
     def test_set_exchange_from_market_data(self):
         """Tests Model.Quote.set_exchange_from_market_data."""

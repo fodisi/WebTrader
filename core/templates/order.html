@@ -36,7 +36,7 @@
                 <div class="sidebar-sticky">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('home.show_home') }}">
+                            <a class="nav-link" href="{{ url_for('account_home.show_account_home') }}">
                                 <span data-feather="home"></span>
                                 Home
                             </a>
@@ -111,7 +111,7 @@
                         <tbody>
                             {% for item in orders %}
                             <tr>
-                                <td>{{ item['datetime'] }}</td>
+                                <td>{{ item['date_time'] }}</td>
                                 <td>{{ item['ticker_symbol'] }}</td>
 
                                 {%if item['order_type'] == 0 %}

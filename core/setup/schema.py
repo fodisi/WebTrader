@@ -37,7 +37,6 @@ cursor.execute(
     """
 )
 
-
 cursor.execute(
     """
     CREATE TABLE IF NOT EXISTS 
